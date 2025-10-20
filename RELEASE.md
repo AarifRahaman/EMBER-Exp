@@ -1,5 +1,14 @@
 # Release Notes
 
+### 20 Oct 2025
+
+* Removed third party dependencies
+* EMBER public release
+
+---
+
+Pre-release notes.
+
 ### 28 Apr 2025
 
 **VERSION 0.4**
