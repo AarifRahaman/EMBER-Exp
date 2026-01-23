@@ -1,19 +1,21 @@
-# Hybrid Modern C++ Style for your project
+# Hybrid Modern C++ Style for Ember
 # Base: LLVM, then customized
 BasedOnStyle: LLVM
 Standard: c++20
 
 # --- Indentation & tabs ---
-IndentWidth: 2
-TabWidth: 2
+IndentWidth: 4
+TabWidth: 4
 UseTab: Never          # always spaces
 
 # --- Line length / wrapping ---
-ColumnLimit: 100       # you can change to 80 if you prefer
+ColumnLimit: 100       
 ReflowComments: true   # nicely rewraps comments
 
 # --- Braces (K&R / Attach style) ---
 BreakBeforeBraces: Attach      # void foo() { ... }
+BraceWrapping:
+  BeforeElse: false
 
 # --- Control of "short" things on one line ---
 AllowShortIfStatementsOnASingleLine: false
@@ -39,8 +41,13 @@ SortIncludes: true
 IncludeBlocks: Regroup         # separate groups by blank lines
 
 # --- Spaces around things ---
-SpaceAfterCStyleCast: true
+SpaceAfterCStyleCast: false
 SpaceBeforeParens: ControlStatements    # if (x), while (y), but foo(x)
+SpacesInParentheses: false
+#SpaceAfterComma: true        
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false   
+InsertTrailingCommas: Wrapped 
 
 # --- Alignment niceness ---
 AlignConsecutiveAssignments: Consecutive
@@ -50,3 +57,23 @@ AlignConsecutiveBitFields: Consecutive
 # --- Constructor initialization lists ---
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 AllowAllConstructorInitializersOnNextLine: false
+
+
+# --- Header Include Order
+SortIncludes: true
+IncludeBlocks: Preserve   # keeps your manual "own header" block first
+
+IncludeCategories:
+  # 2) Same project headers: "..."
+  - Regex: '^".*"$'
+    Priority: 2
+
+  # 3) Third-party: <fmt/core.h> (has a slash)
+  - Regex: '^<.+/.+>$'
+    Priority: 3
+
+  # 4) Standard library: <vector> (no slash)
+  - Regex: '^<[^/]+>$'
+    Priority: 4
+
+
