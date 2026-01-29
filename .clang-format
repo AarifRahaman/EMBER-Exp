@@ -30,21 +30,18 @@ ReferenceAlignment: Left
 
 # --- Switch / case formatting ---
 IndentCaseLabels: true
-IndentGotoLabels: true
+
 
 # --- Namespaces ---
-NamespaceIndentation: All      # indent inside namespaces
+NamespaceIndentation: None      # indent inside namespaces
 CompactNamespaces: false
 
-# --- Includes ---
-SortIncludes: true
-IncludeBlocks: Regroup         # separate groups by blank lines
 
 # --- Spaces around things ---
-SpaceAfterCStyleCast: false
+SpaceAfterCStyleCast: false           #int x = (int)y;
 SpaceBeforeParens: ControlStatements    # if (x), while (y), but foo(x)
-SpacesInParentheses: false
-#SpaceAfterComma: true        
+SpacesInParentheses: false          
+SpaceAfterComma: true        
 MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: false   
 InsertTrailingCommas: Wrapped 

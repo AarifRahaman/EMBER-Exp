@@ -12,13 +12,13 @@ CheckOptions:
   - { key: readability-identifier-naming.FunctionCase,         value: camelBack }
   - { key: readability-identifier-naming.VariableCase,         value: lower_case }
   - { key: readability-identifier-naming.MemberCase,           value: lower_case }
- # - { key: readability-identifier-naming.MemberPrefix,         value: 'm_' }
- # - { key: readability-identifier-naming.ConstantCase,         value: UPPER_CASE }
+  - { key: readability-identifier-naming.MemberPrefix,         value: 'm_' }
+  - { key: readability-identifier-naming.ConstantCase,         value: UPPER_CASE }
   - { key: readability-identifier-naming.ConstantPrefix,       value: 'k' }
   - { key: readability-identifier-naming.MacroDefinitionCase,  value: UPPER_CASE }
   - { key: readability-identifier-naming.TemplateParameterCase,value: CamelCase }
   - { Key: readability-line-length.LineLength,                 value: 150 }
-  #- { key: readability-identifier-naming.GlobalPrefix,         value: g_ }
-  #- { key: readability-identifier-naming.GlobalCase,           value: lower_case }
+  - { key: readability-identifier-naming.GlobalPrefix,         value: g_ }
+  - { key: readability-identifier-naming.GlobalCase,           value: lower_case }
   - {key: modernize-use-auto.MinTypeNameLength,                 value: 10 }
     
