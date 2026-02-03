@@ -42,7 +42,7 @@ SpaceAfterCStyleCast: false           #int x = (int)y;
 SpaceBeforeParens: ControlStatements    # if (x), while (y), but foo(x)
 SpacesInParentheses: false          
 SpaceAfterComma: true        
-MaxEmptyLinesToKeep: 1
+MaxEmptyLinesToKeep: 2
 KeepEmptyLinesAtTheStartOfBlocks: false   
 InsertTrailingCommas: Wrapped 
 
