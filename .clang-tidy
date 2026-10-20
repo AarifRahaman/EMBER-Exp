@@ -1,30 +1,104 @@
-Checks: '-*,readability-identifier-naming, 
-  readability-line-length, modernize-use-auto,modernize-use-enum-class,
-  modernize-use-nullptr,cppcoreguidelines-owning-memory, readability-*,bugprone-*,modernize-*'
+
+# EMBER - Clang-Tidy Configuration
+# Compatible with Clang-Tidy 14
+
+Checks: >
+  -*,
+  readability-identifier-naming,
+  readability-line-length,
+  modernize-use-auto,
+  modernize-use-enum-class,
+  modernize-use-nullptr,
+  cppcoreguidelines-owning-memory,
+  readability-*,
+  bugprone-*,
+  modernize-*,
+  google-build-using-namespace,
+  google-build-namespaces,
+  google-global-names-in-headers
 
 WarningsAsErrors: ''
+
+HeaderFilterRegex: '.*'
 
 ExtraArgs:
   - -isystem/usr/include/c++/11
   - -isystem/usr/include/x86_64-linux-gnu/c++/11
 
-HeaderFilterRegex: '.*'
-
 CheckOptions:
-  - { key: readability-identifier-naming.NamespaceCase,        value: lowercase }
-  - { key: readability-identifier-naming.ClassCase,            value: CamelCase }   #PascalCase
-  - { key: readability-identifier-naming.StructCase,           value: CamelCase }
-  - { key: readability-identifier-naming.EnumCase,             value: CamelCase }
-  - { key: readability-identifier-naming.FunctionCase,         value: camelBack }
-  - { key: readability-identifier-naming.VariableCase,         value: lower_case }  #local / global / function-scope variables
-  - { key: readability-identifier-naming.MemberCase,           value: lower_case }  #class/struct data members
-  - { key: readability-identifier-naming.MemberPrefix,         value: 'm_' }
-  - { key: readability-identifier-naming.ConstantCase,         value: lower_case }
-  - { key: readability-identifier-naming.ConstantPrefix,       value: 'k_' }
-  - { key: readability-identifier-naming.MacroDefinitionCase,  value: UPPER_CASE }
-  #- { key: readability-identifier-naming.TemplateParameterCase,value: camelBack }
-  - { key: readability-line-length.LineLength,                 value: 150 }
-  - { key: readability-identifier-naming.GlobalPrefix,         value: g_ }
-  - { key: readability-identifier-naming.GlobalCase,           value: lower_case }
-  - { key: modernize-use-auto.MinTypeNameLength,               value: 10 }
-    
+
+  # --- NAM: Namespaces ---
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+
+  # --- NAM: Classes, structs, enums ---
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+
+  # --- NAM: Interfaces ---
+  - key: readability-identifier-naming.AbstractClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.AbstractClassPrefix
+    value: 'I'
+
+  # --- NAM: Functions and methods ---
+  - key: readability-identifier-naming.FunctionCase
+    value: camelBack
+  - key: readability-identifier-naming.MethodCase
+    value: camelBack
+
+  # --- NAM: Variables and parameters ---
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+
+  # --- NAM: Data members ---
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberPrefix
+    value: 'm_'
+
+  # --- NAM: Mutable global variables ---
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: 'g_'
+  - key: readability-identifier-naming.GlobalPointerCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalPointerPrefix
+    value: 'g_'
+
+  # --- NAM: Constants ---
+  - key: readability-identifier-naming.LocalConstantCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: lower_case
+
+  # --- NAM: Type aliases ---
+  - key: readability-identifier-naming.TypeAliasCase
+    value: CamelCase
+
+  # --- NAM: Template type parameters ---
+  - key: readability-identifier-naming.TypeTemplateParameterCase
+    value: CamelCase
+
+  # --- NAM: Enum enumerators ---
+  - key: readability-identifier-naming.EnumConstantCase
+    value: CamelCase
+
+  # --- NAM: Project macros ---
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.MacroDefinitionPrefix
+    value: 'EMBER_'
+
+  # --- Modern C++ ---
+  - key: modernize-use-auto.MinTypeNameLength
+    value: '10'
