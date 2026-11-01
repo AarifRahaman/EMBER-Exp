@@ -3,7 +3,6 @@
 #include "em_traits.hpp"
 #include "em_unsigned.hpp"
 #include "traits_specialization.hpp"
-
 #include <concepts>
 #include <cstddef>
 
