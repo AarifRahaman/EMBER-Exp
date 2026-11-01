@@ -1,1 +1,2 @@
 add_subdirectory(sysutils)
+add_subdirectory(datatypes)
