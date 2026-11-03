@@ -1,73 +1,84 @@
-# Hybrid Modern C++ Style for Ember
-# Base: LLVM, then customized
+
+# Hybrid Modern C++ Style for EMBER
+# Compatible with Clang-Format 14
 BasedOnStyle: LLVM
 Standard: c++20
 
-# --- Indentation & tabs ---
+# --- FMT-001: Indentation and source layout ---
 IndentWidth: 4
 TabWidth: 4
-UseTab: Never          # always spaces
-
-# --- Line length / wrapping ---
-ColumnLimit: 100       
-ReflowComments: true   # nicely rewraps comments
-
+UseTab: Never
+ColumnLimit: 100
+ReflowComments: true
 MaxEmptyLinesToKeep: 1
 SeparateDefinitionBlocks: Always
 
-# --- Braces (K&R / Attach style) ---
-BreakBeforeBraces: Attach      # void foo() { ... }
+# LF line endings (Clang-Format 14)
+DeriveLineEnding: false
+UseCRLF: false
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# --- FMT-002: Braces and control flow ---
+BreakBeforeBraces: Custom
+
 BraceWrapping:
-  BeforeElse: false
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeElse: true
+  BeforeCatch: true
+  BeforeWhile: true
 
-
-# --- Control of "short" things on one line ---
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: None
 AllowShortBlocksOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
 
-# --- Pointers & references ---
-PointerAlignment: Left         
+# --- FMT-003: Whitespace ---
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpaceBeforeAssignmentOperators: true
+SpaceAfterCStyleCast: false
+
+PointerAlignment: Left
 DerivePointerAlignment: false
 ReferenceAlignment: Left
 
-# --- Switch / case formatting ---
+# --- FMT-004: Switch and namespaces ---
 IndentCaseLabels: true
-
-
-# --- Namespaces ---
-NamespaceIndentation: None     
+NamespaceIndentation: None
 CompactNamespaces: false
+AllowShortCaseLabelsOnASingleLine: false
 
+# --- FMT-005: Constructor initializer lists ---
+PackConstructorInitializers: CurrentLine
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerIndentWidth: 4
 
-# --- Spaces around things ---
-SpaceAfterCStyleCast: false           #int x = (int)y;
-SpaceBeforeParens: ControlStatements    # if (x), while (y), but foo(x)
-SpacesInParentheses: false          
-KeepEmptyLinesAtTheStartOfBlocks: false   
-InsertTrailingCommas: None 
+# --- FMT-006: Trailing commas ---
+# C++ trailing commas must be maintained manually.
+InsertTrailingCommas: None
 
-# --- Constructor initialization lists ---
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
-AllowAllConstructorInitializersOnNextLine: false
-
-
-# --- Header Include Order
+# --- HDR-003: Header include order ---
 SortIncludes: true
-IncludeBlocks: Preserve   # keeps your manual "own header" block first
+IncludeBlocks: Regroup
 
 IncludeCategories:
-  # 2) Same project headers: "..."
+  # 2. Same-project headers
   - Regex: '^".*"$'
     Priority: 2
 
-  # 3) Third-party: <fmt/core.h> (has a slash)
+  # 3. Third-party headers
   - Regex: '^<.+/.+>$'
     Priority: 3
 
-  # 4) Standard library: <vector> (no slash)
+  # 4. Standard-library headers
   - Regex: '^<[^/]+>$'
     Priority: 4
-
-
