@@ -73,7 +73,7 @@ int main (int argc, char* argv[])
 
         for (size_t fiter = 0; fiter < FAULTNUM; fiter++)
         {
-            ember::time_t<long unsigned> itime =
+            ember::sim::Tick<long unsigned> itime =
                 static_cast<long unsigned> (ember::math::random::uniform (int (0), int (SIMTIME)));
             size_t pos = ember::math::random::uniform ((size_t)0, reglist.size () - 1);
             ember::ISaboteur* loc = reglist[pos];
@@ -91,7 +91,7 @@ int main (int argc, char* argv[])
         // DUT
         dut.reset ();
 
-        for (ember::time_t<unsigned> tick = 0; tick < SIMTIME; tick++)
+        for (ember::sim::Tick<unsigned> tick = 0; tick < SIMTIME; tick++)
         {
             // Gen Fault Mask
             if (!seulist.empty ())

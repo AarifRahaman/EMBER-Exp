@@ -1,5 +1,6 @@
-#ifndef __EMBER_STRING_HPP__
-#define __EMBER_STRING_HPP__
+#pragma once
+
+#include <string>
 
 namespace ember {
 
@@ -14,5 +15,3 @@ static constexpr unsigned int str2int(const char* str, int h = 0) {
 }
 
 } // namespace ember
-
-#endif

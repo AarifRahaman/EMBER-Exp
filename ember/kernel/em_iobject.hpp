@@ -1,5 +1,4 @@
-#ifndef __EMBER_IOBJECT_HPP__
-#define __EMBER_IOBJECT_HPP__
+#pragma once
 
 namespace ember {
 
@@ -9,5 +8,3 @@ class IObject {
 };
 
 } // namespace ember
-
-#endif

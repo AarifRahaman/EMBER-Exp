@@ -1,9 +1,8 @@
-#ifndef __EMBER_RANDOM_HPP__
-#define __EMBER_RANDOM_HPP__
-
-#include <random>
+#pragma once
 
 #include "em_types.hpp"
+
+#include <random>
 
 namespace ember {
 
@@ -24,5 +23,3 @@ template <typename T> T uniform(const T& start, const T& stop) requires(std::int
 } // namespace ember
 
 #include "tpp/em_random.tpp"
-
-#endif

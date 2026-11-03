@@ -1,10 +1,9 @@
-#ifndef __EMBER_ARRAY_HPP__
-#define __EMBER_ARRAY_HPP__
+#pragma once
+
+#include "em_defs.hpp"
 
 #include <algorithm>
 #include <iostream>
-
-#include "em_defs.hpp"
 
 namespace ember {
 
@@ -54,5 +53,3 @@ template <typename T> struct is_array<array<T>> : std::true_type {};
 template <typename T> std::ostream& operator<<(std::ostream& os, ember::array<T> const& foo);
 
 #include "tpp/em_array.tpp"
-
-#endif

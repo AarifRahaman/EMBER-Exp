@@ -1,22 +1,26 @@
-#ifndef __EMBER_SABOTEURS_DPSRAM_HPP__
-#define __EMBER_SABOTEURS_DPSRAM_HPP__
-
-#include <deque>
-#include <type_traits> // Required for std::is_array
+#pragma once
 
 #include "em_fault.hpp"
 #include "em_isaboteur.hpp"
 #include "em_types.hpp"
+#include "emf_models.hpp"
+
+#include <vector>
+#include <deque>
+#include <type_traits> // Required for std::is_array
 
 namespace ember
 {
 namespace saboteur
 {
-
 // General Declaration
 template <typename T>
-    requires (!is_array<T>::value)
-class dpsram : public ember::ISaboteur, ember::IModule
+requires (!is_array<T>::value)
+class dpsram : public ember::ISaboteur<ember::fault::seu_t>,
+               public ember::ISaboteur<ember::fault::sa1_t>,
+               public ember::ISaboteur<ember::fault::sa0_t>,
+               public ember::IModule
+
 {
   protected:
     const std::string name;
@@ -123,7 +127,7 @@ class dpsram : public ember::ISaboteur, ember::IModule
     {
         for (size_t it = 0; it < (depth * lineStride); it++)
         {
-            data[it] ^ seuMask[it];
+            data[it] ^= seuMask[it];
         }
 
 #if defined(DEBUG) || defined(VERBOSE)
@@ -141,7 +145,7 @@ class dpsram : public ember::ISaboteur, ember::IModule
     {
         for (size_t it = 0; it < (depth * lineStride); it++)
         {
-            data[it] | sa1Mask[it];
+            data[it] |= sa1Mask[it];
         }
 
 #if defined(DEBUG) || defined(VERBOSE)
@@ -158,7 +162,7 @@ class dpsram : public ember::ISaboteur, ember::IModule
     {
         for (size_t it = 0; it < (depth * lineStride); it++)
         {
-            data[it] & sa0Mask[it];
+            data[it] &= sa0Mask[it];
         }
 
 #if defined(DEBUG) || defined(VERBOSE)
@@ -253,95 +257,68 @@ class dpsram : public ember::ISaboteur, ember::IModule
         }
     }
     void eval () {}
-    std::vector<ember::ISaboteur*> getSaboteurs ()
+
+    std::vector<ember::ISaboteurBase*> getSaboteurs ()
     {
-        std::vector<ember::ISaboteur*> aux;
-        aux.push_back (this);
-        return aux;
+        std::vector<ember::ISaboteurBase*> saboteurs;
+        saboteurs.push_back (this);
+        return saboteurs;
     }
+
     void reset ()
     {
         std::fill (&data[0], &data[(depth * lineStride)], 0);
     }
 
     // Methods - ISaboteur
-    const size_t locations (const ember::fault::model& fModel) const
+    const size_t locations(const std::type_identity<ember::fault::seu_t>) const override
     {
-        switch (fModel)
-        {
-        case ember::fault::model::seu:
-        {
-            return totalBw;
-            break;
-        }
-        case ember::fault::model::sa0:
-        {
-            return freeSaLocations;
-            break;
-        }
-        case ember::fault::model::sa1:
-        {
-            return freeSaLocations;
-            break;
-        }
-        default:
-        {
-            throw std::invalid_argument ("fModel is not supported");
-        }
-        }
+        return totalBw;
     }
 
-    void genFaultMask (const ember::fault::model& fModel)
+    const size_t locations(const std::type_identity<ember::fault::sa0_t>) const override
     {
-        switch (fModel)
-        {
-        case ember::fault::model::seu:
-        {
-            genSeuMask ();
-            break;
-        }
-        case ember::fault::model::sa0:
-        {
-            genSa0Mask ();
-            break;
-        }
-        case ember::fault::model::sa1:
-        {
-            genSa1Mask ();
-            break;
-        }
-        default:
-        {
-            throw std::invalid_argument ("fModel is not supported");
-        }
-        }
+        return freeSaLocations;
     }
 
-    void clearFaultMask (const ember::fault::model& fModel)
+    const size_t locations(const std::type_identity<ember::fault::sa1_t>) const override
     {
-        switch (fModel)
-        {
-        case ember::fault::model::seu:
-        {
-            clearSeuMask ();
-            break;
-        }
-        case ember::fault::model::sa0:
-        {
-            clearSa0Mask ();
-            break;
-        }
-        case ember::fault::model::sa1:
-        {
-            clearSa1Mask ();
-            break;
-        }
-        default:
-        {
-            throw std::invalid_argument ("fModel is not supported");
-        }
-        }
+        return freeSaLocations;
     }
+
+
+    void genFaultMask(const std::type_identity<ember::fault::seu_t>) override
+    {
+        genSeuMask();
+    }
+
+    void genFaultMask(const std::type_identity<ember::fault::sa0_t>) override
+    {
+        genSa0Mask();
+    }
+
+    void genFaultMask(const std::type_identity<ember::fault::sa1_t>) override
+    {
+        genSa1Mask();
+    }
+
+
+    void clearFaultMask (const std::type_identity<ember::fault::seu_t>) override
+    {
+        clearSeuMask ();
+    }
+
+    void clearFaultMask (const std::type_identity<ember::fault::sa1_t>) override
+    {
+        clearSa1Mask ();
+    }
+
+    void clearFaultMask (const std::type_identity<ember::fault::sa0_t>) override
+    {
+        clearSa0Mask ();
+    }
+
+
     void clearAllMasks ()
     {
         clearSeuMask ();
@@ -349,37 +326,32 @@ class dpsram : public ember::ISaboteur, ember::IModule
         clearSa1Mask ();
     }
 
-    void applyFault (const ember::fault::model& fModel)
+    void applyFault (const std::type_identity<ember::fault::seu_t>) override
     {
-        switch (fModel)
-        {
-        case ember::fault::model::seu:
-        {
-            applySeuFault ();
-            break;
-        }
-        case ember::fault::model::sa0:
-        {
-            applySa0Fault ();
-            break;
-        }
-        case ember::fault::model::sa1:
-        {
-            applySa1Fault ();
-            break;
-        }
-        default:
-        {
-            throw std::invalid_argument ("fModel is not supported");
-        }
-        }
+        applySeuFault();
     }
+
+    void applyFault (const std::type_identity<ember::fault::sa1_t>) override
+    {
+        applySa1Fault();
+    }
+
+    void applyFault (const std::type_identity<ember::fault::sa0_t>) override
+    {
+        applySa0Fault();
+    }
+
 
     void applyAllFaults ()
     {
         applySeuFault ();
         applySa0Fault ();
         applySa1Fault ();
+    }
+
+    size_t faultModelCount() const override
+    {
+        return 3;
     }
 
     // CTORS
@@ -396,6 +368,7 @@ class dpsram : public ember::ISaboteur, ember::IModule
 
         resetCellList ();
         randomize ();
+        clearAllMasks ();
     }
 
     dpsram (const char* instanceId, const size_t depth, const size_t linesize,
@@ -412,6 +385,8 @@ class dpsram : public ember::ISaboteur, ember::IModule
 
         resetCellList ();
         randomize ();
+        clearAllMasks ();
+
     }
     ~dpsram ()
     {
@@ -425,5 +400,3 @@ class dpsram : public ember::ISaboteur, ember::IModule
 } // namespace saboteur
 
 } // namespace ember
-
-#endif

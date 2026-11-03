@@ -1,12 +1,11 @@
-#ifndef __EMBER_FAULT_BASELINE_DTYPES_HPP__
-#define __EMBER_FAULT_BASELINE_DTYPES_HPP__
-
-#include <sstream>
-#include <string>
+#pragma once
 
 #include "em_isaboteur.hpp"
 #include "em_tick.hpp"
 #include "em_types.hpp"
+
+#include <sstream>
+#include <string>
 
 namespace ember {
 
@@ -29,5 +28,3 @@ using mask_t = ember::uint64_t;
 } // namespace fault
 
 } // namespace ember
-
-#endif

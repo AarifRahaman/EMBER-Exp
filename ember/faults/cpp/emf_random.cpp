@@ -1,10 +1,10 @@
 
+/*#include "emf_random.hpp"
+#include "em_math.hpp"
+#include "em_random.hpp"
 #include <cstddef>
 #include <type_traits>
 
-#include "em_math.hpp"
-#include "em_random.hpp"
-#include "emf_random.hpp"
 
 ember::ISaboteur* ember::fault::uniform(std::vector<ember::ISaboteur*> vec,
                                         const ember::fault::model& fModel) {
@@ -24,4 +24,4 @@ ember::ISaboteur* ember::fault::uniform(std::vector<ember::ISaboteur*> vec,
 
     assert(!"-E(Out of Scope): during random uniform component selection");
     return nullptr;
-}
+}*/

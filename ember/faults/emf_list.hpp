@@ -1,16 +1,13 @@
-#ifndef __EMBER_FAULT_LIST_HPP__
-#define __EMBER_FAULT_LIST_HPP__
+#include "em_isaboteur.hpp"
+#include "em_tick.hpp"
+#include "emf_dtypes.hpp"
+#include "emf_models.hpp"
 
 #include <algorithm>
 #include <deque>
 #include <iostream>
 #include <sstream>
 #include <string>
-
-#include "em_isaboteur.hpp"
-#include "em_tick.hpp"
-#include "emf_dtypes.hpp"
-#include "emf_models.hpp"
 
 namespace ember {
 
@@ -21,12 +18,12 @@ namespace fault {
 //
 template <ember::fault::model fmodel, typename T = long unsigned> class list {
   protected:
-    std::deque<fault_t<ember::fault::model, T>> _fqueue;
+    std::deque<fault_t<ember::fault::model>> _fqueue;
 
   public:
-    void insert(fault_t<ember::fault::model, T>& fault);
+    void insert(fault_t<ember::fault::model>& fault);
     void pop();
-    fault_t<ember::fault::model, T>& getHead();
+    fault_t<ember::fault::model>& getHead();
     size_t size() const;
     bool empty() const;
     size_t clear();
@@ -40,5 +37,3 @@ template <ember::fault::model fmodel, typename T = long unsigned> class list {
 } // namespace ember
 
 #include "tpp/emf_list.tpp"
-
-#endif

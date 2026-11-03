@@ -1,8 +1,10 @@
-#ifndef __EMBER_FAULT_MODELS_HPP__
-#define __EMBER_FAULT_MODELS_HPP__
+#pragma once
 
 #include "em_isaboteur.hpp"
+#include "emf_dtypes.hpp"
 #include "em_tick.hpp"
+#include "emf_timing.hpp"
+#include <string_view>
 
 namespace ember {
 
@@ -11,55 +13,49 @@ namespace fault {
 //
 // == SEU Class == //
 //
-template <typename T = long unsigned> class seu_t : public fault_t<model, T> {
-  protected:
-    std::string _name;
-    model _model;
-    sim::Tick _itime;
-    ISaboteur* _location;
+class seu_t : public fault_t<model> {
 
-  public:
-    seu_t& operator=(const fault_t<model, T>& other);
+public:
+    static constexpr std::string_view name = "SEU";
+    static constexpr FaultTiming timing = FaultTiming::transient;
 
-    seu_t(const sim::Tick fault_time, ISaboteur* location);
-    seu_t(const fault_t<model, T>& other);
+    seu_t& operator=(const fault_t<model>& other);
+
+    seu_t(const sim::Tick fault_time, ISaboteurBase* location);
+    seu_t(const fault_t<model>& other);
 };
 
 //
-// == Stuck-At Classes == //
+// == Stuck-At-0 Classes == //
 //
-template <typename T = long unsigned> class sa0_t : public fault_t<model, T> {
-  protected:
-    std::string _name;
-    model _model;
-    sim::Tick _itime;
-    ISaboteur* _location;
+class sa0_t : public fault_t<model> {
 
-  public:
-    sa0_t& operator=(const fault_t<model, T>& other);
+public:
+    static constexpr std::string_view name = "SA0";
+    static constexpr FaultTiming timing = FaultTiming::permanent;
 
-    sa0_t(const sim::Tick fault_time, ISaboteur* location);
-    sa0_t(const fault_t<model, T>& other);
+    sa0_t& operator=(const fault_t<model>& other);
+
+    sa0_t(const sim::Tick fault_time, ISaboteurBase* location);
+    sa0_t(const fault_t<model>& other);
 };
 
-template <typename T = long unsigned> class sa1_t : public fault_t<model, T> {
-  protected:
-    std::string _name;
-    model _model;
-    sim::Tick _itime;
-    ISaboteur* _location;
+//
+// == Stuck-At-1 Classes == //
+//
 
-  public:
-    sa1_t& operator=(const fault_t<model, T>& other);
+class sa1_t : public fault_t<model> {
 
-    sa1_t(const sim::Tick fault_time, ISaboteur* location);
-    sa1_t(const fault_t<model, T>& other);
+public:
+    static constexpr std::string_view name = "SA1";
+    static constexpr FaultTiming timing = FaultTiming::permanent;
+
+    sa1_t& operator=(const fault_t<model>& other);
+
+    sa1_t(const sim::Tick fault_time, ISaboteurBase* location);
+    sa1_t(const fault_t<model>& other);
 };
 
 } // namespace fault
 
 } // namespace ember
-
-#include "tpp/emf_models.tpp"
-
-#endif

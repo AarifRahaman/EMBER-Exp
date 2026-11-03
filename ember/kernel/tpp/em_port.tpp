@@ -1,5 +1,4 @@
-#ifndef __EMBER_PORT_TPP__
-#define __EMBER_PORT_TPP__
+#pragma once
 
 template <typename T> const char* ember::Port<T>::id() {
     return name.c_str();
@@ -140,5 +139,3 @@ template <typename T> ember::Port<T>& ember::Port<T>::operator=(Port<T>&& other)
     }
     return *this;
 }
-
-#endif

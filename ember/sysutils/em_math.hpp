@@ -1,7 +1,7 @@
-#ifndef __EMBER_MATH_HPP__
-#define __EMBER_MATH_HPP__
+#pragma once
 
 #include <iostream>
+#include <type_traits>
 
 namespace ember {
 
@@ -26,13 +26,16 @@ requires(std::is_integral<T>::value) constexpr T log2(const T p) {
 }
 
 // Max
-template <typename Ta, typename Tb> constexpr Ta max(const Ta A, const Tb B) {
-    return (A > static_cast<Ta>(B)) ? A : static_cast<Ta>(B);
+template <typename Ta, typename Tb> constexpr std::common_type_t<Ta, Tb> max(const Ta A, const Tb B) {
+    using Ct = std::common_type_t<Ta, Tb>;
+    return (static_cast<Ct>(A) > static_cast<Ct>(B)) ? static_cast<Ct>(A) : static_cast<Ct>(B);
 }
 
+
 // Min
-template <typename Ta, typename Tb> constexpr Ta min(const Ta A, const Tb B) {
-    return (A < static_cast<Ta>(B)) ? A : static_cast<Ta>(B);
+template <typename Ta, typename Tb> constexpr std::common_type_t<Ta, Tb> min(const Ta A, const Tb B) {
+    using Ct = std::common_type_t<Ta, Tb>;
+    return (static_cast<Ct>(A) < static_cast<Ct>(B)) ? static_cast<Ct>(A) : static_cast<Ct>(B);
 }
 
 namespace twoc {
@@ -54,5 +57,3 @@ requires(std::is_integral<T>::value) constexpr T lobound(const T bitwidth) {
 } // namespace math
 
 } // namespace ember
-
-#endif

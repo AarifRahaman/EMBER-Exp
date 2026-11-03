@@ -1,11 +1,11 @@
-#ifndef __EMBER_FAULT_DTYPE_HPP__
-#define __EMBER_FAULT_DTYPE_HPP__
-
-#include <sstream>
-#include <string>
+#pragma once
 
 #include "em_isaboteur.hpp"
 #include "em_tick.hpp"
+
+#include <sstream>
+#include <string>
+#include <string_view>
 
 namespace ember {
 
@@ -14,19 +14,20 @@ namespace fault {
 //
 // == Parental Fault Class == //
 //
-template <class model_t, typename T = long unsigned> class fault_t {
+template <class model_t>
+class fault_t {
   protected:
     std::string _name;
     model_t _model;
     sim::Tick _itime;
-    ISaboteur* _location;
+    ISaboteurBase* _location;
 
   public:
-    const sim::Tick time() const;
-    const model_t fmodel() const;
-    ISaboteur* location() const;
-    const char* id() const;
-    const char* repr() const;
+    sim::Tick time() const;
+    model_t fmodel() const;
+    ISaboteurBase* location() const;
+    std::string_view id() const;
+    std::string repr() const;
 
     fault_t& operator=(const fault_t& other);
 
@@ -36,7 +37,7 @@ template <class model_t, typename T = long unsigned> class fault_t {
     bool operator<=(const fault_t& other) const;
     bool operator>=(const fault_t& other) const;
 
-    fault_t(const model_t model, const char* model_str, const sim::Tick time, ISaboteur* location);
+    fault_t(std::string_view model_str, const model_t model, const sim::Tick time, ISaboteurBase* location);
 };
 
 } // namespace fault
@@ -44,8 +45,8 @@ template <class model_t, typename T = long unsigned> class fault_t {
 } // namespace ember
 
 // Stream Out ember::fault::fault_t
-template <class model_t, typename T>
-std::ostream& operator<<(std::ostream& os, const ember::fault::fault_t<model_t, T>& other) {
+template <class model_t>
+std::ostream& operator<<(std::ostream& os, const ember::fault::fault_t<model_t>& other) {
     os << "(" << other.location()->id();
     os << ", " << other.id();
     os << ", " << other.time() << ")" << std::flush;
@@ -53,5 +54,3 @@ std::ostream& operator<<(std::ostream& os, const ember::fault::fault_t<model_t, 
 }
 
 #include "tpp/emf_dtypes.tpp"
-
-#endif

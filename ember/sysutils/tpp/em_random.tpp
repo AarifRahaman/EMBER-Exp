@@ -1,6 +1,4 @@
-#ifndef __EMBER_RANDOM_TPP__
-#define __EMBER_RANDOM_TPP__
-
+#pragma once
 //
 // INT Random Bitwidth
 //
@@ -25,5 +23,3 @@ T ember::math::random::uniform(const T& start, const T& stop) requires(std::inte
     std::uniform_int_distribution<T> dis(start, stop - 1);
     return static_cast<T>(dis(gen));
 }
-
-#endif

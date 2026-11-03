@@ -1,5 +1,4 @@
-#ifndef __EMBER_SABOTEURS_STDCELLS_HPP__
-#define __EMBER_SABOTEURS_STDCELLS_HPP__
+#pragma once
 
 #include "em_fault.hpp"
 #include "em_port.hpp"
@@ -285,5 +284,3 @@ class xnor2 : public priv::gate
 } // namespace saboteur
 
 } // namespace ember
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef __EMBER_HPP__
-#define __EMBER_HPP__
-
+#pragma once
 // System Utils
 #include "em_defs.hpp"
 #include "em_math.hpp"
@@ -20,5 +18,3 @@
 
 // Data Types
 #include "em_types.hpp"
-
-#endif

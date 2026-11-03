@@ -28,7 +28,7 @@ int main (int argc, char* argv[])
         std::cout << "====================================" << std::endl;
         std::cout << "== Test " << testit << " Starting..." << std::endl;
         std::cout << "====================================" << std::endl;
-        for (ember::time::time_t tick = 0; tick < (DELAY + COOLDOWN); tick++)
+        for (ember::sim::Tick tick = 0; tick < (DELAY + COOLDOWN); tick++)
         {
             // Writing Bin DUT
             dut.a.write (a);

@@ -7,4 +7,4 @@ target_include_directories(ember
 
 add_subdirectory(ems_ff)
 add_subdirectory(ems_dpsram)
-add_subdirectory(ems_stdcells)
+#add_subdirectory(ems_stdcells)

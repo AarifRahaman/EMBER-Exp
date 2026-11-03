@@ -1,8 +1,11 @@
-#ifndef __EMBER_IMODULE_HPP__
-#define __EMBER_IMODULE_HPP__
+#pragma once
 
 #include "em_iobject.hpp"
-#include "em_isaboteur.hpp"
+#include "em_isaboteurbase.hpp"
+#include "em_concepts.hpp"
+
+#include <vector>
+#include <memory>
 
 namespace ember {
 
@@ -13,12 +16,12 @@ class IModule : public IObject {
 
   public:
     // Core Routines
-    virtual void update() = 0;
-    virtual void eval() = 0;
-    virtual std::vector<ISaboteur*> getSaboteurs() = 0;
-    virtual void reset() = 0;
+    virtual void update () = 0;
+    virtual void eval () = 0;
+    virtual std::vector<ISaboteurBase*> getSaboteurs () = 0;
+    virtual void reset () = 0;
 };
 
-} // namespace ember
 
-#endif
+
+} // namespace ember

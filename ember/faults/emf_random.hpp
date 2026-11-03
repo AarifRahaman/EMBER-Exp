@@ -1,20 +1,21 @@
-#ifndef __EMBER_FAULT_RANDOM_HPP__
-#define __EMBER_FAULT_RANDOM_HPP__
+#pragma once
+
+#include "em_isaboteurbase.hpp"
+#include "emf_baseline_dtypes.hpp"
+#include "FM_contracts.hpp"
 
 #include <vector>
-
-#include "em_isaboteur.hpp"
-#include "emf_baseline_dtypes.hpp"
 
 namespace ember {
 
 namespace fault {
 
 // Weighted Uniform Distribution over components size
-ISaboteur* uniform(std::vector<ISaboteur*> vec, const model& fModel);
+template<FaultModel FM>
+ISaboteur<FM>* uniform(const std::vector<ISaboteurBase*>& vec);
 
 } // namespace fault
 
 } // namespace ember
 
-#endif
+#include "tpp/emf_random.tpp"

@@ -1,10 +1,9 @@
-#ifndef __EMBER_PORT_HPP__
-#define __EMBER_PORT_HPP__
+#pragma once
+
+#include "em_iport.hpp"
 
 #include <sstream>
 #include <tuple>
-
-#include "em_iport.hpp"
 
 namespace ember {
 
@@ -46,5 +45,3 @@ template <typename T> using outPort = Port<T>;
 } // namespace ember
 
 #include "tpp/em_port.tpp"
-
-#endif

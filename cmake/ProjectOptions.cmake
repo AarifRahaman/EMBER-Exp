@@ -1,5 +1,5 @@
 option(BUILD_EXAMPLES  "Build EMBER examples"                                                    OFF)
-option(BUILD_TESTS     "Generate build files for unit tests"                                     OFF)
+option(BUILD_TESTS     "Generate build files for unit tests"                                     ON)
 option(BUILD_VERILATOR "Compile verilator submodules (requires verilator version >= 4.0; < 5.0)" OFF)
 option(BUILD_SABOTEURS "Compile default saboteurs library"                                       ON)
 

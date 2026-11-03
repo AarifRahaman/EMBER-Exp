@@ -40,7 +40,7 @@ int main (int argc, char* argv[])
 
 #ifdef SEU
         ember::ISaboteur* iloc = ember::fault::uniform (saboteurs, ember::fault::model::seu);
-        ember::time::time_t itime =
+        ember::sim::Tick itime =
             static_cast<long unsigned> (ember::math::random::uniform (0, DELAY));
         ember::fault::seu_t<long unsigned> fault (itime, iloc);
 #elif SA0
@@ -63,7 +63,7 @@ int main (int argc, char* argv[])
             bool d = rand () % 2;
 
             // Simulation
-            for (ember::time::time_t tick = 0; tick < (DELAY); tick++)
+            for (ember::sim::Tick tick = 0; tick < (DELAY); tick++)
             {
                 // Writing Bin DUT
                 dut.a.write (a);

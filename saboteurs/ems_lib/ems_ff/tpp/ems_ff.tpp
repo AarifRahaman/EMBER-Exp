@@ -1,7 +1,6 @@
-#ifndef __EMBER_SABOTEURS_FLIPFLOP_TPP__
-#define __EMBER_SABOTEURS_FLIPFLOP_TPP__
+#pragma once
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::resetCellList ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::resetCellList ()
 {
     static std::random_device rd;
     static std::mt19937 gen (rd ());
@@ -14,7 +13,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::resetCellL
     freeSaLocations = bw;
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSeuMask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::genSeuMask ()
 {
     size_t pos = ember::math::random::uniform<> ((size_t)0, (size_t)bw);
     *seuMask |= 0x1 << pos;
@@ -24,7 +23,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSeuMask
 #endif
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSa1Mask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::genSa1Mask ()
 {
     if (!cellList.empty ())
     {
@@ -44,7 +43,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSa1Mask
     }
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSa0Mask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::genSa0Mask ()
 {
     if (!cellList.empty ())
     {
@@ -64,7 +63,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::genSa0Mask
     }
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySeuFault ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::applySeuFault ()
 {
     dout.write (dout.read () ^ *seuMask);
 
@@ -75,7 +74,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySeuFa
     clearSeuMask ();
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySa1Fault ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::applySa1Fault ()
 {
     dout.write (dout.read () | *sa1Mask);
 
@@ -84,7 +83,7 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySa1Fa
 #endif
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySa0Fault ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::applySa0Fault ()
 {
     dout.write (dout.read () & *sa0Mask);
 
@@ -93,127 +92,99 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::applySa0Fa
 #endif
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::clearSeuMask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::clearSeuMask ()
 {
     *seuMask = 0;
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::clearSa1Mask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::clearSa1Mask ()
 {
     *sa1Mask = 0;
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::clearSa0Mask ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::clearSa0Mask ()
 {
     *sa0Mask = ~0;
 }
 
-template <typename T> const char* ember::saboteur::priv::flipflop<T, false>::id ()
+template <typename T> const char* ember::saboteur::priv::flipflop<T>::id ()
 {
     return name.c_str ();
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::reset ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::reset ()
 {
     dout.write (0);
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::update ()
+template <typename T> void ember::saboteur::priv::flipflop<T>::update ()
 {
     dout.write (din.read ());
 }
 
 template <typename T>
-std::vector<ember::ISaboteur*> ember::saboteur::priv::flipflop<T, false>::getSaboteurs ()
+std::vector<ember::ISaboteurBase*> ember::saboteur::priv::flipflop<T>::getSaboteurs ()
 {
-    std::vector<ember::ISaboteur*> aux;
+    std::vector<ember::ISaboteurBase*> aux;
     aux.push_back (this);
     return aux;
 }
 
 template <typename T>
-const size_t
-ember::saboteur::priv::flipflop<T, false>::locations (const ember::fault::model& fModel) const
+const size_t ember::saboteur::priv::flipflop<T>::locations (const std::type_identity<ember::fault::seu_t>) const
 {
-    switch (fModel)
-    {
-    case ember::fault::model::seu:
-    {
-        return bw;
-        break;
-    }
-    case ember::fault::model::sa0:
-    {
-        return freeSaLocations;
-        break;
-    }
-    case ember::fault::model::sa1:
-    {
-        return freeSaLocations;
-        break;
-    }
-    default:
-    {
-        throw std::invalid_argument ("fModel is not supported");
-    }
-    }
+   return bw;
 }
 
 template <typename T>
-void ember::saboteur::priv::flipflop<T, false>::genFaultMask (const ember::fault::model& fModel)
+const size_t ember::saboteur::priv::flipflop<T>::locations (const std::type_identity<ember::fault::sa1_t>) const
 {
-    switch (fModel)
-    {
-    case ember::fault::model::seu:
-    {
-        genSeuMask ();
-        break;
-    }
-    case ember::fault::model::sa0:
-    {
-        genSa0Mask ();
-        break;
-    }
-    case ember::fault::model::sa1:
-    {
-        genSa1Mask ();
-        break;
-    }
-    default:
-    {
-        throw std::invalid_argument ("fModel is not supported");
-    }
-    }
+   return freeSaLocations;
 }
 
 template <typename T>
-void ember::saboteur::priv::flipflop<T, false>::clearFaultMask (const ember::fault::model& fModel)
+const size_t ember::saboteur::priv::flipflop<T>::locations (const std::type_identity<ember::fault::sa0_t>) const
 {
-    switch (fModel)
-    {
-    case ember::fault::model::seu:
-    {
-        clearSeuMask ();
-        break;
-    }
-    case ember::fault::model::sa0:
-    {
-        clearSa0Mask ();
-        break;
-    }
-    case ember::fault::model::sa1:
-    {
-        clearSa1Mask ();
-        break;
-    }
-    default:
-    {
-        throw std::invalid_argument ("fModel is not supported");
-    }
-    }
+   return freeSaLocations;
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::clearAllMasks ()
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::genFaultMask (const std::type_identity<ember::fault::seu_t>)
+{
+   genSeuMask();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::genFaultMask (const std::type_identity<ember::fault::sa1_t>)
+{
+   genSa1Mask();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::genFaultMask (const std::type_identity<ember::fault::sa0_t>)
+{
+   genSa0Mask();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::clearFaultMask (const std::type_identity<ember::fault::seu_t>)
+{
+    clearSeuMask();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::clearFaultMask (const std::type_identity<ember::fault::sa1_t>)
+{
+    clearSa1Mask();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::clearFaultMask (const std::type_identity<ember::fault::sa0_t>)
+{
+    clearSa0Mask();
+}
+
+template <typename T> void ember::saboteur::priv::flipflop<T>::clearAllMasks ()
 {
     clearSeuMask ();
     clearSa0Mask ();
@@ -221,33 +192,26 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::clearAllMa
 }
 
 template <typename T>
-void ember::saboteur::priv::flipflop<T, false>::applyFault (const ember::fault::model& fModel)
+void ember::saboteur::priv::flipflop<T>::applyFault (const std::type_identity<ember::fault::seu_t>)
 {
-    switch (fModel)
-    {
-    case ember::fault::model::seu:
-    {
-        applySeuFault ();
-        break;
-    }
-    case ember::fault::model::sa0:
-    {
-        applySa0Fault ();
-        break;
-    }
-    case ember::fault::model::sa1:
-    {
-        applySa1Fault ();
-        break;
-    }
-    default:
-    {
-        throw std::invalid_argument ("fModel is not supported");
-    }
-    }
+    applySeuFault();
 }
 
-template <typename T> void ember::saboteur::priv::flipflop<T, false>::applyAllFaults ()
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::applyFault (const std::type_identity<ember::fault::sa1_t>)
+{
+    applySa1Fault();
+}
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::applyFault (const std::type_identity<ember::fault::sa0_t>)
+{
+    applySa0Fault();
+}
+
+
+template <typename T>
+void ember::saboteur::priv::flipflop<T>::applyAllFaults ()
 {
     applySeuFault ();
     applySa0Fault ();
@@ -255,8 +219,14 @@ template <typename T> void ember::saboteur::priv::flipflop<T, false>::applyAllFa
 }
 
 template <typename T>
-ember::saboteur::priv::flipflop<T, false>::flipflop (const size_t& bitwidth)
-    : bw (bitwidth), name ("reg"), din ("din"), dout ("dout")
+size_t ember::saboteur::priv::flipflop<T>::faultModelCount () const
+{
+        return 3;
+}
+
+template <typename T>
+ember::saboteur::priv::flipflop<T>::flipflop (const size_t& bitwidth)
+    : name ("reg"), bw (bitwidth), din ("din"), dout ("dout")
 {
     // dout.bind();
 
@@ -272,8 +242,8 @@ ember::saboteur::priv::flipflop<T, false>::flipflop (const size_t& bitwidth)
 }
 
 template <typename T>
-ember::saboteur::priv::flipflop<T, false>::flipflop (const char* instanceId, const size_t& bitwidth)
-    : bw (bitwidth), name (instanceId), din ("din"), dout ("dout")
+ember::saboteur::priv::flipflop<T>::flipflop (const char* instanceId, const size_t& bitwidth)
+    : name (instanceId), bw (bitwidth), din ("din"), dout ("dout")
 {
     // dout.bind();
 
@@ -288,11 +258,9 @@ ember::saboteur::priv::flipflop<T, false>::flipflop (const char* instanceId, con
     resetCellList ();
 }
 
-template <typename T> ember::saboteur::priv::flipflop<T, false>::~flipflop ()
+template <typename T> ember::saboteur::priv::flipflop<T>::~flipflop ()
 {
     delete seuMask;
     delete sa0Mask;
     delete sa1Mask;
 }
-
-#endif

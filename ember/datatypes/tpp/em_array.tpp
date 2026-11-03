@@ -1,6 +1,4 @@
-#ifndef __EMBER_ARRAY_TPP__
-#define __EMBER_ARRAY_TPP__
-
+#pragma once
 // * === METHODS === * //
 template <typename T> const size_t ember::array<T>::size() const {
     return _len;
@@ -133,5 +131,3 @@ ember::array<T>::array(const array<T>& other) : _len(other._len),
     data = new T[_len];
     std::copy(other.data, other.data + _len, data);
 }
-
-#endif

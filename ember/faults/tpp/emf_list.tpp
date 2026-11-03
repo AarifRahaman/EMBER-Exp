@@ -1,11 +1,10 @@
-#ifndef __EMBER_FAULT_LIST_TPP__
-#define __EMBER_FAULT_LIST_TPP__
+#pragma once
 
 //
 // == FAULT LIST == //
 //
 template <ember::fault::model fmodel, typename T>
-void ember::fault::list<fmodel, T>::insert(ember::fault::fault_t<ember::fault::model, T>& other) {
+void ember::fault::list<fmodel, T>::insert(ember::fault::fault_t<ember::fault::model>& other) {
     if (_fqueue.empty()) {
         _fqueue.push_back(other);
     } else {
@@ -19,7 +18,7 @@ template <ember::fault::model fmodel, typename T> void ember::fault::list<fmodel
 }
 
 template <ember::fault::model fmodel, typename T>
-ember::fault::fault_t<ember::fault::model, T>& ember::fault::list<fmodel, T>::getHead() {
+ember::fault::fault_t<ember::fault::model>& ember::fault::list<fmodel, T>::getHead() {
     return _fqueue.front();
 }
 
@@ -53,5 +52,3 @@ void ember::fault::list<fmodel, T>::print() const {
 template <ember::fault::model fmodel, typename T> ember::fault::list<fmodel, T>::list() {
     clear();
 }
-
-#endif

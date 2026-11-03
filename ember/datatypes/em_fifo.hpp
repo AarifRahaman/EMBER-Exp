@@ -1,5 +1,4 @@
-#ifndef __EMBER_FIFO_HPP__
-#define __EMBER_FIFO_HPP__
+#pragma once
 
 #include <vector>
 
@@ -34,5 +33,3 @@ template <typename T> class fifo {
 template <typename T> std::ostream& operator<<(std::ostream& os, ember::fifo<T> const& foo);
 
 #include "tpp/em_fifo.tpp"
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __EMBER_IPORT_HPP__
-#define __EMBER_IPORT_HPP__
+#pragma once
 
 #include "em_iobject.hpp"
 
@@ -18,5 +17,3 @@ template <typename T> class IPort : public IObject {
 };
 
 } // namespace ember
-
-#endif

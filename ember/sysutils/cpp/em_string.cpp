@@ -1,8 +1,7 @@
+#include "em_string.hpp"
 
 #include <iostream>
 #include <string>
-
-#include "em_string.hpp"
 
 const char* ember::strcat(const char* str_a, const char* str_b) {
     std::string res(str_a);

@@ -7,12 +7,12 @@ get_cpp_files() {
     local base_ref="${GITHUB_BASE_REF:-main}"
 
     if [ "$event" = "pull_request" ] && [ -n "$base_ref" ]; then
-        echo "PR event → only changed C/C++ files relative to base branch: $base_ref"
+        echo "PR event → only changed C/C++ files relative to base branch: $base_ref" >&2
         git fetch origin "$base_ref" --depth=1
         git diff --name-only "origin/$base_ref...HEAD" -- \
             '*.h' '*.hpp' '*.c' '*.cc' '*.cpp' '*.cxx' '*.tpp'
     else
-        echo "Push event → all tracked C/C++ files"
+        echo "Push event → all tracked C/C++ files" >&2
         git ls-files '*.h' '*.hpp' '*.c' '*.cc' '*.cpp' '*.cxx' '*.tpp'
     fi
 }
